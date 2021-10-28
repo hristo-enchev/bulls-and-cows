@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Http\Traits\GenereteNumberTrait;
 use App\Models\RankList;
+use App\Rules\NonRepetable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Session;
@@ -26,11 +27,7 @@ class Game extends Component
     public int $totalDuration = 0;
     public $rankList;
 
-    public array $number = [];
-    public ?string $number1 = null;
-    public ?string $number2 = null;
-    public ?string $number3 = null;
-    public ?string $number4 = null;
+    public string $number;
 
     /**
      * Livewire click event: Start the game
@@ -48,28 +45,20 @@ class Game extends Component
 
         Session::put('secret', $this->getSecretNumber(self::SECRET_LENGTH));
 
-        $this->number = [];
-        $this->number1 = $this->number2 = $this->number3 = $this->number4 = null;
+        $this->number = '';
     }
 
     /**
      * Livewire change event: change value
      */
-    public function setNumber($index, $value): void
+    public function submitNumber(): void
     {
-        $this->number[$index] = $this->{'number' . $index};
-
-        // exclude own
-        $number = $this->number;
-        unset($number[$index]);
-
         $this->validate([
-            'number' . $index => 'nullable|integer|gte:1|lte:9|not_in:' . implode(',', $number),
+            'number' => ['nullable', 'integer', 'digits:4', new NonRepetable]
         ]);
 
-        $this->number[$index] = $this->{'number' . $index};
 
-        if (count($this->number) == self::SECRET_LENGTH) {
+        if (strlen($this->number) == self::SECRET_LENGTH) {
             $this->countCowsAndBulls();
         }
     }
@@ -85,9 +74,10 @@ class Game extends Component
         $secret = Session::get('secret');
 
         info($secret);
+        $number = str_split($this->number);
 
-        foreach ($this->number as $k => $value) {
-            $char = substr($secret, $k - 1, 1);
+        foreach ($number as $k => $value) {
+            $char = substr($secret, $k, 1);
 
             if ($value == $char) {
                 $this->bulls++;
@@ -95,7 +85,7 @@ class Game extends Component
                 if ($this->bulls == self::SECRET_LENGTH) {
                     $this->win();
                 }
-            } else if (in_array($char, $this->number)) {
+            } else if (in_array($char, $number)) {
                 $this->cows++;
             }
         }

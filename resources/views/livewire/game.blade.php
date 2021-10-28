@@ -49,52 +49,48 @@
                                 id="name" type="text" placeholder="Enter you nickname" wire:model="nickname"
                                 {{ $start ? 'disabled' : '' }}>
                         </div>
-                        <div class="mb-4 md:flex md:justify-between {{ $start == true ? '' : 'invisible' }}">
-                            <div class="md:w-3/12 pr-4">
+                        <div class=" {{ $start == true ? '' : 'invisible' }}">
+                            <div class="">
                                 <input
                                     class="bg-gray-200 appearance-none border-2 border-gray-200
                                         rounded w-full py-2 px-4 text-gray-700 leading-tight
-                                        focus:outline-none focus:bg-white focus:border-purple-500"
-                                    type="number" wire:change="setNumber(1, $event.target.value)" wire:model="number1"
-                                    {{ $win ? 'disabled' : '' }}>
-                            </div>
-                            <div class="md:w-3/12 pr-4">
-                                <input
-                                    class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                    type="number" wire:change="setNumber(2, $event.target.value)" wire:model="number2"
-                                    {{ $win ? 'disabled' : '' }}>
-                            </div>
-                            <div class="md:w-3/12 pr-4">
-                                <input
-                                    class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                    type="number" wire:change="setNumber(3, $event.target.value)" wire:model="number3"
-                                    {{ $win ? 'disabled' : '' }}>
-                            </div>
-                            <div class="md:w-3/12 pr-4">
-                                <input
-                                    class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                    type="number" wire:change="setNumber(4, $event.target.value)" wire:model="number4"
-                                    {{ $win ? 'disabled' : '' }}>
+                                        focus:outline-none focus:bg-white focus:border-purple-500 text-center"
+                                    type="number"
+                                    wire:model="number"
+                                    id="number"
+                                    {{ $win ? 'disabled' : '' }}
+                                    placeholder="Enter number"
+                                >
                             </div>
                         </div>
                         <div class="mb-6 text-center">
                             @if (!$win)
-                                @error('number1') <span class="text-red-500 text-xs">{{ $message }}</span>
-                                @enderror
-                                @error('number2') <span class="text-red-500 text-xs">{{ $message }}</span>
-                                @enderror
-                                @error('number3') <span class="text-red-500 text-xs">{{ $message }}</span>
-                                @enderror
-                                @error('number4') <span class="text-red-500 text-xs">{{ $message }}</span>
+                                @error('number') <span class="text-red-500 text-xs">{{ $message }}</span>
                                 @enderror
                                 @error('nickname') <span class="text-red-500 text-xs">{{ $message }}</span>
                                 @enderror
                             @endif
-                            <button
-                                class="mt-5 w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-                                id="new-game" type="button" wire:click="startGame">
-                                New game
-                            </button>
+                            @if (!$start)
+                                <button
+                                    class="mt-5 w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                                    id="new-game" type="button" wire:click="startGame">
+                                    New game
+                                </button>
+                            @else
+                                <button
+                                    class="mt-5 w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline
+                                        {{ $win ? ' invisible' : '' }}"
+                                    id="new-game" type="button" wire:click="submitNumber"
+                                >
+                                    Guess number
+                                </button>
+                                <button
+                                    class="mt-5 w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                                    id="new-game" type="button" wire:click="startGame">
+                                    New game
+                                </button>
+                            @endif
+
                         </div>
                         <hr class="mb-6 border-t" />
                     </div>
