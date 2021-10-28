@@ -7,7 +7,7 @@
 - Laravel 8
 - Livewire 2
 - Tailwind
-- 
+
 ## Requirements
 - PHP 7.4+
 - Composer
