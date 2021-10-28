@@ -22,6 +22,9 @@
 - `php artisan migrate`
 - `php artisan serve`
 
+## Simple unit test to validate secret number
+- ./vendor/bin/phpunit tests/Unit/SecretNumberTest.php
+
 ## Optional
 - `npm install`
 - `npm run dev`
