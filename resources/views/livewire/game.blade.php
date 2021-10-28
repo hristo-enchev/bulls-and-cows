@@ -5,7 +5,7 @@
             <!-- Row -->
             <div class="w-full xl:w-10/12 lg:w-11/12 flex">
                 <!-- Col -->
-                @if (empty($rankList))
+                @if ($rankList->isEmpty())
                     <div class="w-full h-auto bg-gray-400 lg:w-4/12 bg-cover rounded-l-lg"
                         style="background-image: url('{{ asset('images/photo-1517849845537-4d257902454a.jpg') }}');min-height: 520px;">
                         <h2 class="text-center pt-3 text-xl font-extrabold">Empty rank list</h2>
